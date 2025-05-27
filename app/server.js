@@ -57,9 +57,9 @@ app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
-app.get('/nodejs/chat/getChatMenuOfCoachId/:id', (req, res) => {
-  res.json({ message: "Test route works", coachId: req.params.id });
-});
+// app.get('/nodejs/chat/getChatMenuOfCoachId/:id', (req, res) => {
+//   res.json({ message: "Test route works", coachId: req.params.id });
+// });
 app.set('trust proxy', true);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
