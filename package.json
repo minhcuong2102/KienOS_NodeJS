@@ -1,0 +1,28 @@
+{
+  "name": "kienos-nodejs",
+  "version": "1.0.0",
+  "description": "nodejs microservice for kienos pbl6",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app/server.js"
+  },
+  "engines": {
+    "node": ">=19"
+  },
+  "author": "tungthegoat",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "mysql2": "^3.11.3",
+    "openai": "^4.20.0",
+    "path": "^0.12.7",
+    "pg": "^8.13.1",
+    "sequelize": "^6.37.4",
+    "socket.io": "^4.7.2"
+  }
+}
