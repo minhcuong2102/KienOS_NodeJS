@@ -52,6 +52,7 @@ const allowedOrigins = [
   'https://kienos-frontend-z1ie.onrender.com',
   'https://kienos-backend-4w2a.onrender.com',
   'http://localhost:3000',
+  'http://http://192.168.1.6:8000',
   undefined  // cho native app không có origin
 ];
 
