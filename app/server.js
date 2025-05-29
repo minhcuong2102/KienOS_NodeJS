@@ -47,7 +47,13 @@ const handleErrors   = require('./middleware/global-error.middleware');
 const cors = require('cors');
 const port = process.env.PORT || 8888;
 const app  = express();
+app.use(cors({
+  origin: ['https://kienos-frontend-z1ie.onrender.com', 'https://kienos-backend-4w2a.onrender.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+}));
 
+app.options('*', cors());
 /* --------------------------  MIDDLEWARE CŨ  -------------------------- */
 app.use('/secret', express.Router().get('/', (req, res) => {
   res.status(200).json({ message: 'Secret path' });
@@ -67,13 +73,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* --------------------------  ROUTER CŨ  -------------------------- */
 initApiRouter(app);
 
-app.use(cors({
-  origin: ['https://kienos-frontend-z1ie.onrender.com', 'https://kienos-backend-4w2a.onrender.com'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-}));
 
-app.options('*', cors());
 app.all('*', (req, res) => {
   res.send(
     'Message From Nodejs: This route doesnt exist, maybe check for the request type (GET/POST/PUT/DELETE) or the route itself'
