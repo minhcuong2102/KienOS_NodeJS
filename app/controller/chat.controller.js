@@ -36,7 +36,7 @@ router.get('/getChatMenuOfCoachId/:id', async (req, res, next) => {
     successResponse(res, result);
   } catch (error) {
     console.error('❌ Lỗi tại getChatMenuOfCoachId:', error); // Log chi tiết
-    res.status(500).json({ error: error.message || 'Internal Server Error' }); // Trả lỗi rõ ràng
+    res.status(500).json({ error:  errorResponse(res, " " + result); || 'Internal Server Error' }); // Trả lỗi rõ ràng
   }
 });
 
