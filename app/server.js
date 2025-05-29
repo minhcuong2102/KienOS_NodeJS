@@ -48,7 +48,7 @@ const cors = require('cors');
 const port = process.env.PORT || 8888;
 const app  = express();
 app.use(cors({
-  origin: ['https://kienos-frontend-z1ie.onrender.com', 'https://kienos-backend-4w2a.onrender.com'],
+  origin: ['*'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
