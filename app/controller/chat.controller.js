@@ -30,24 +30,25 @@ router.get('/', (req, res, next) => {
     .then(t => {successResponse(res, t)})
     .catch(next);
 });
-router.get('/getAllChatsOfCoachId/:id', async (req, res) => {
+router.get('/getAllChatsOfCoachId/:id', async (req, res, next) => {
   try {
     const result = await getAllChatsOfCoachId(req.params.id);
     successResponse(res, result);
   } catch (err) {
     console.error('Lỗi tại /getAllChatsOfCoachId:', err);
     errorResponse(res, err);
+    next(error);
   }
 });
 
-router.get('/getAllChatsOfCustomerId/:id', (req, res, next) => {
-  return getAllChatsOfCustomerId(req.params.id)
-    .then(t => {successResponse(res, t)})
-    .catch(error => {
-      console.error('Lỗi khi gọi getChatMenuOfCoachId:', error);
-      next(error);
-    });
-});
+// router.get('/getAllChatsOfCustomerId/:id', (req, res, next) => {
+//   return getAllChatsOfCustomerId(req.params.id)
+//     .then(t => {successResponse(res, t)})
+//     .catch(error => {
+//       console.error('Lỗi khi gọi getChatMenuOfCoachId:', error);
+//       next(error);
+//     });
+// });
 
 // router.get('/getAllChatsOfCoachId/:id', (req, res, next) => {
 //   return getAllChatsOfCoachId(req.params.id)
