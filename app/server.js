@@ -36,25 +36,44 @@
 //     console.log(`Server listening on port ${port}`);  
 // });
 require('dotenv').config();
-const express        = require('express');
-const http           = require('http');               // ⬅️ thêm
-const socketIO       = require('socket.io');          // ⬅️ thêm
-const cookieParser   = require('cookie-parser');
-const bodyParser     = require('body-parser');
-const initApiRouter  = require('./controller/index');
-const initChatSocket = require('./socket/chat.socket'); // ⬅️ thêm
-const handleErrors   = require('./middleware/global-error.middleware');
+const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const cors = require('cors');
+
+const initApiRouter = require('./controller/index');
+const initChatSocket = require('./socket/chat.socket');
+const handleErrors = require('./middleware/global-error.middleware');
+
 const port = process.env.PORT || 8888;
-const app  = express();
+const app = express();
+
+/* -------------------------- CORS CONFIGURATION -------------------------- */
+const allowedOrigins = ['https://kienos-frontend-z1ie.onrender.com',
+                        'capacitor://localhost',
+                        'http://localhost',
+                        'http://localhost:3000',
+                        undefined
+                       ];          
+
 app.use(cors({
-  origin: ['*'],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed for this origin: ' + origin));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
+  credentials: true, // Nếu FE sử dụng cookie
 }));
 
+// Xử lý preflight request cho mọi route
 app.options('*', cors());
-/* --------------------------  MIDDLEWARE CŨ  -------------------------- */
+
+/* -------------------------- MIDDLEWARE -------------------------- */
 app.use('/secret', express.Router().get('/', (req, res) => {
   res.status(200).json({ message: 'Secret path' });
 }));
@@ -63,46 +82,41 @@ app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
-// app.get('/nodejs/chat/getChatMenuOfCoachId/:id', (req, res) => {
-//   res.json({ message: "Test route works", coachId: req.params.id });
-// });
+
 app.set('trust proxy', true);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-/* --------------------------  ROUTER CŨ  -------------------------- */
+/* -------------------------- ROUTER -------------------------- */
 initApiRouter(app);
 
-
-
+// Catch-all nếu route không tồn tại
 app.all('*', (req, res) => {
-  res.send(
-    'Message From Nodejs: This route doesnt exist, maybe check for the request type (GET/POST/PUT/DELETE) or the route itself'
+  res.status(404).send(
+    'Message From Nodejs: This route doesn’t exist. Maybe check the request type or route.'
   );
 });
 
-/* --------------------------  GLOBAL ERROR  -------------------------- */
+/* -------------------------- GLOBAL ERROR HANDLER -------------------------- */
 handleErrors(app);
 
-/* --------------------------  SOCKET.IO  -------------------------- */
-// bọc app Express vào http.Server rồi gắn socket
+/* -------------------------- SOCKET.IO SETUP -------------------------- */
 const server = http.createServer(app);
-const io     = socketIO(server, {
+
+const io = socketIO(server, {
   cors: {
-    origin: '*',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
+    credentials: true,
   },
 });
 
-// khởi tạo logic socket (phòng chat, v.v.)
 initChatSocket(io);
-
-// cho phép controller/service truy cập io qua req.app.get('io')
 app.set('io', io);
 
-/* --------------------------  KHỞI CHẠY  -------------------------- */
+/* -------------------------- START SERVER -------------------------- */
 server.listen(port, () => {
   console.log(`Server + WebSocket listening on port ${port}`);
 });
