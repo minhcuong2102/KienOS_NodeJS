@@ -47,13 +47,13 @@ const handleErrors   = require('./middleware/global-error.middleware');
 const cors = require('cors');
 const port = process.env.PORT || 8888;
 const app  = express();
-app.use(cors({
-  origin: ['https://kienos-frontend-z1ie.onrender.com', 'https://kienos-backend-4w2a.onrender.com'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: ['https://kienos-frontend-z1ie.onrender.com', 'https://kienos-backend-4w2a.onrender.com'],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   credentials: true,
+// }));
 
-app.options('*', cors());
+// app.options('*', cors());
 /* --------------------------  MIDDLEWARE CŨ  -------------------------- */
 app.use('/secret', express.Router().get('/', (req, res) => {
   res.status(200).json({ message: 'Secret path' });
