@@ -48,10 +48,32 @@ const cors = require('cors');
 const port = process.env.PORT || 8888;
 const app  = express();
 
+const allowedOrigins = [
+  'https://kienos-frontend-z1ie.onrender.com',
+  'https://kienos-backend-4w2a.onrender.com',
+  'http://localhost:3000',
+  undefined  // cho native app không có origin
+];
+
 app.use(cors({
-  origin: '*',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked for origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
+
+// Optional: handle preflight
+app.options('*', cors());
+// app.use(cors({
+//   origin: '*',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+// }));
 // app.use(cors({
 //   origin: ['https://kienos-frontend-z1ie.onrender.com', 'https://kienos-backend-4w2a.onrender.com'],
 //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
