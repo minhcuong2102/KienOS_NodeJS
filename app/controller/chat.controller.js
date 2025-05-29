@@ -37,7 +37,7 @@ router.get('/getAllChatsOfCoachId/:id', async (req, res, next) => {
   } catch (err) {
     console.error('Lỗi tại /getAllChatsOfCoachId:', err);
     errorResponse(res, err);
-    next(error);
+    // next(error);
   }
 });
 
