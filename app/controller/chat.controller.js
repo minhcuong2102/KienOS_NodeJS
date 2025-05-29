@@ -34,7 +34,10 @@ router.get('/', (req, res, next) => {
 router.get('/getAllChatsOfCustomerId/:id', (req, res, next) => {
   return getAllChatsOfCustomerId(req.params.id)
     .then(t => {successResponse(res, t)})
-    .catch(next);
+    .catch(error => {
+      console.error('Lỗi khi gọi getChatMenuOfCoachId:', error);
+      next(error);
+    });
 });
 
 router.get('/getAllChatsOfCoachId/:id', (req, res, next) => {
