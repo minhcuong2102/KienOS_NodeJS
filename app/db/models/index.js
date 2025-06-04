@@ -7,6 +7,7 @@ const Role = require('./role');
 const { initAllWorkoutModel } = require('./workout');
 const Message = require('./message');
 const Exercise = require('./exercise');
+const Category = require('./category');
 
 const env = process.env.NODE_ENV || "development";
 
@@ -33,7 +34,8 @@ const models = {
 
   Message: Message.init(sequelize),
   Exercise: Exercise.init(sequelize),
-
+  Category: Category.init(sequelize),
+  
 };
 
 Object.values(models)

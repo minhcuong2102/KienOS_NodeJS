@@ -40,6 +40,14 @@ class Exercise extends Model {
         );
       }
     
+    static associate(models) {
+      this.belongsToMany(models.Category, {
+        through: 'exercise_categories',
+        foreignKey: 'exercise_id',
+        otherKey: 'category_id',
+        as: 'categories',
+      });
+    }  
     //   static associate(models) {
     //     // Define associations here if needed
     //     this.belongsTo(models.User, {
