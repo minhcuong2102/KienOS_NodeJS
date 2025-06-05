@@ -374,7 +374,7 @@ async function sendToGemini(messageText) {
 }
   async function sendToGeminiWithHistory(content, coachId, customerId) {
     const exercisePrompt = await getAllExercisesAsPromptString();
-    const messages = await getRecentMessages(coachId, customerId, 10);
+    const messages = await getRecentMessages(coachId, customerId, 20);
     // const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     const history = messages.map(msg => ({
       role: msg.extra_data?.send_by === 'coach' ? 'model' : 'user',
@@ -398,10 +398,21 @@ async function sendToGemini(messageText) {
         systemInstruction: {
             parts: [
               {
-                text: `Bạn là huấn luyện viên thể hình. Dưới đây là danh sách bài tập bạn được phép trả lời:\n\n${exercisePrompt}\n\nNếu người dùng hỏi điều gì không có trong danh sách hoặc có gì thay đổi về chế độ tập, hãy thay đổi phù hợp.`,
-            }
+                text: `Bạn là một huấn luyện viên thể hình chuyên nghiệp. Bạn sẽ sử dụng danh sách các bài tập dưới đây để tư vấn cá nhân hóa cho người dùng.
+                Danh sách bài tập (có category chỉ định vùng tác động):
+                ${exercisePrompt}
+                QUY TẮC:
+                - Nếu người dùng muốn giảm cân, tập trung chọn bài giúp đốt mỡ toàn thân, cardio, và những bài đa nhóm cơ.
+                - Nếu người dùng đưa ra chiều cao và cân nặng, ước tính chỉ số BMI để xác định thừa cân, bình thường hay gầy.
+                - Lập kế hoạch lịch tập 5-6 buổi/tuần, nghỉ 1-2 buổi.
+                - Mỗi buổi có thể tập trung 1-2 nhóm cơ hoặc toàn thân.
+                - Chỉ chọn các bài tập có trong danh sách. Nếu cần, gợi ý kết hợp chúng lại.
+                
+                Trả lời rõ ràng, có ngày tập cụ thể nếu cần. Nếu người dùng hỏi sai chủ đề, từ chối nhẹ nhàng.`,
+              }
             ]
-          }     });
+          }     
+        });
     const result = await chat.sendMessage(content);
     const response = result.response.text();
     return response;
