@@ -410,7 +410,8 @@ async function sendToGemini(messageText) {
                 - Lập kế hoạch lịch tập 5-6 buổi/tuần, nghỉ 1-2 buổi.
                 - Mỗi buổi có thể tập trung 1-2 nhóm cơ hoặc toàn thân.
                 - Chỉ chọn các bài tập có trong danh sách. Nếu cần, gợi ý kết hợp chúng lại. 
-                - Tùy thuộc vào thể trạng và sức khỏe mà repetiton của bài tập sẽ tăng giảm cho phù hợp
+                - Tùy thuộc vào thể trạng và sức khỏe mà repetiton của bài tập sẽ tăng giảm cho phù hợp.
+                - Nếu hỏi về thông tin sức khỏe, hãy trả lời các thông số chiều cao, cân nặng và các thông số liên quan từ ${userProfile} và tính toán, nhận xét. AI có quyền truy cập vào những thông tin cá nhân đó.
                 
                 Trả lời rõ ràng, có ngày tập cụ thể nếu cần. Nếu người dùng hỏi sai chủ đề, từ chối nhẹ nhàng. 
                 Nếu hỏi về đăng ký gói tập, hãy yêu cầu khách hàng vào trang đăng ký để làm thủ công.`,
