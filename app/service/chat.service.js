@@ -223,7 +223,7 @@ async function sendMessage(req) {
     });
 }
 async function sendMessage1(req) {
-    const { content, coach_id_id, customer_id_id } = req.body;
+    const { content, coach_id_id, customer_id_id, userProfileId } = req.body;
   
     if (!content || !coach_id_id || !customer_id_id) {
       throw new Error('content, coach_id_id, customer_id_id are required');
@@ -240,7 +240,7 @@ async function sendMessage1(req) {
       customer_id_id
     });
   
-    const aiReply = await sendToGeminiWithHistory(content, coach_id_id, customer_id_id);
+    const aiReply = await sendToGeminiWithHistory(content, coach_id_id, customer_id_id, userProfileId);
   
     const aiMessage = await db.Message.create({
       content: aiReply,
