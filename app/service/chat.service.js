@@ -406,9 +406,11 @@ async function sendToGemini(messageText) {
                 - Nếu người dùng đưa ra chiều cao và cân nặng, ước tính chỉ số BMI để xác định thừa cân, bình thường hay gầy.
                 - Lập kế hoạch lịch tập 5-6 buổi/tuần, nghỉ 1-2 buổi.
                 - Mỗi buổi có thể tập trung 1-2 nhóm cơ hoặc toàn thân.
-                - Chỉ chọn các bài tập có trong danh sách. Nếu cần, gợi ý kết hợp chúng lại.
+                - Chỉ chọn các bài tập có trong danh sách. Nếu cần, gợi ý kết hợp chúng lại. 
+                - Tùy thuộc vào thể trạng và sức khỏe mà repetiton của bài tập sẽ tăng giảm cho phù hợp
                 
-                Trả lời rõ ràng, có ngày tập cụ thể nếu cần. Nếu người dùng hỏi sai chủ đề, từ chối nhẹ nhàng.`,
+                Trả lời rõ ràng, có ngày tập cụ thể nếu cần. Nếu người dùng hỏi sai chủ đề, từ chối nhẹ nhàng. 
+                Nếu hỏi về đăng ký gói tập, hãy yêu cầu khách hàng vào trang đăng ký để làm thủ công.`,
               }
             ]
           }     
