@@ -381,7 +381,7 @@ async function sendToGemini(messageText) {
       parts: [{ text: msg.content }]
     }));
     const userProfile = await db.CustomerProfile.findOne({
-        where: { id: userProfileId }
+        where: { customer_id: customerId }
     });
     const firstUserIndex = history.findIndex(m => m.role === 'user');
     if (firstUserIndex > 0) {
