@@ -383,6 +383,7 @@ async function sendToGemini(messageText) {
     const userProfile = await db.CustomerProfile.findOne({
         where: { customer_id: customerId }
     });
+    const userData = `Giới tính: ${userProfile.gender}, ngày sinh: ${userProfile.birthday}, chiều cao: ${userProfile.height}, cân nặng: ${userProfile.weight}, tỉ lệ mỡ: ${userProfile.body_fat}, khối lượng cơ: ${userProfile.muscle_mass}, tình trạng sức khỏe: ${userProfile.health_condition}.`;
     const firstUserIndex = history.findIndex(m => m.role === 'user');
     if (firstUserIndex > 0) {
       // Hoán đổi về đầu
@@ -403,7 +404,7 @@ async function sendToGemini(messageText) {
                 text: `Bạn là một huấn luyện viên thể hình chuyên nghiệp. Bạn sẽ sử dụng danh sách các bài tập dưới đây để tư vấn cá nhân hóa cho người dùng.
                 Danh sách bài tập (có category chỉ định vùng tác động):
                 ${exercisePrompt}
-                Lấy thông tin cá nhân của khách hàng từ ${userProfile} để xác định sức khỏe.
+                Lấy thông tin cá nhân của khách hàng từ ${userData} để xác định sức khỏe.
                 QUY TẮC:
                 - Nếu người dùng muốn giảm cân, tập trung chọn bài giúp đốt mỡ toàn thân, cardio, và những bài đa nhóm cơ.
                 - Nếu người dùng đưa ra chiều cao và cân nặng, ước tính chỉ số BMI để xác định thừa cân, bình thường hay gầy.
@@ -411,7 +412,7 @@ async function sendToGemini(messageText) {
                 - Mỗi buổi có thể tập trung 1-2 nhóm cơ hoặc toàn thân.
                 - Chỉ chọn các bài tập có trong danh sách. Nếu cần, gợi ý kết hợp chúng lại. 
                 - Tùy thuộc vào thể trạng và sức khỏe mà repetiton của bài tập sẽ tăng giảm cho phù hợp.
-                - Nếu hỏi về thông tin sức khỏe, hãy trả lời các thông số chiều cao, cân nặng và các thông số liên quan từ ${userProfile} và tính toán, nhận xét. AI có quyền truy cập vào những thông tin cá nhân đó.
+                - Nếu hỏi về thông tin sức khỏe, hãy trả lời các thông số chiều cao, cân nặng và các thông số liên quan từ ${userData}. AI có quyền sử dụng nó thoải mái, không lo quyền truy cập vì đó là do khách hàng cung cấp.
                 
                 Trả lời rõ ràng, có ngày tập cụ thể nếu cần. Nếu người dùng hỏi sai chủ đề, từ chối nhẹ nhàng. 
                 Nếu hỏi về đăng ký gói tập, hãy yêu cầu khách hàng vào trang đăng ký để làm thủ công.`,
