@@ -383,8 +383,10 @@ async function sendToGemini(messageText) {
     const userProfile = await db.CustomerProfile.findOne({
         where: { customer_id: customerId }
     });
+    console.log(userProfile);
     const userData = `Giới tính: ${userProfile.gender}, ngày sinh: ${userProfile.birthday}, chiều cao: ${userProfile.height}, cân nặng: ${userProfile.weight}, tỉ lệ mỡ: ${userProfile.body_fat}, khối lượng cơ: ${userProfile.muscle_mass}, tình trạng sức khỏe: ${userProfile.health_condition}.`;
     const firstUserIndex = history.findIndex(m => m.role === 'user');
+    console.log(userData);
     if (firstUserIndex > 0) {
       // Hoán đổi về đầu
       const firstUser = history.splice(firstUserIndex, 1)[0];
