@@ -372,7 +372,7 @@ async function sendToGemini(messageText) {
       return `- ${ex.name}: ${ex.repetitions}, ${ex.duration}s, nghỉ ${ex.rest_period || 45}s`;
     }).join('\n');
 }
-  async function sendToGeminiWithHistory(content, coachId, customerId) {
+  async function sendToGeminiWithHistory(content, coachId, customerId, userProfileId) {
     const exercisePrompt = await getAllExercisesAsPromptString();
     const messages = await getRecentMessages(coachId, customerId, 20);
     // const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
@@ -380,7 +380,9 @@ async function sendToGemini(messageText) {
       role: msg.extra_data?.send_by === 'coach' ? 'model' : 'user',
       parts: [{ text: msg.content }]
     }));
-
+    const userProfile = await db.User.findOne({
+        where: { id: userProfileId }
+    });
     const firstUserIndex = history.findIndex(m => m.role === 'user');
     if (firstUserIndex > 0) {
       // Hoán đổi về đầu
@@ -401,6 +403,7 @@ async function sendToGemini(messageText) {
                 text: `Bạn là một huấn luyện viên thể hình chuyên nghiệp. Bạn sẽ sử dụng danh sách các bài tập dưới đây để tư vấn cá nhân hóa cho người dùng.
                 Danh sách bài tập (có category chỉ định vùng tác động):
                 ${exercisePrompt}
+                Lấy thông tin cá nhân của khách hàng từ ${userProfile} để xác định sức khỏe.
                 QUY TẮC:
                 - Nếu người dùng muốn giảm cân, tập trung chọn bài giúp đốt mỡ toàn thân, cardio, và những bài đa nhóm cơ.
                 - Nếu người dùng đưa ra chiều cao và cân nặng, ước tính chỉ số BMI để xác định thừa cân, bình thường hay gầy.
